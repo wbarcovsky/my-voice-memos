@@ -33,19 +33,11 @@ const webpackConfig = (env) => {
           exclude: /dist/
         },
         {
-          test: /\.module.css$/,
+          test: /\.css$/i,
           use: [
             MiniCssExtractPlugin.loader,
-            {
-              loader: "css-loader",
-              options: {
-                importLoaders: 1,
-                modules: {
-                  localIdentName: "[name]__[local]___[hash:base64:5]",
-                },
-                url: false,
-              },
-            },
+            'css-loader',
+            'postcss-loader'
           ],
         },
       ]
