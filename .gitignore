@@ -1,5 +1,7 @@
 node_modules/
-dist
 .cache/
 .idea/
+dist/
 package-lock.json
+
+*.log
