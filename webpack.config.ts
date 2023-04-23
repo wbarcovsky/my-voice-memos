@@ -6,6 +6,7 @@ import {TsconfigPathsPlugin} from "tsconfig-paths-webpack-plugin";
 import TerserPlugin from 'terser-webpack-plugin';
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
 const webpackConfig = (env) => {
   const isDev = env.production || !env.development;
@@ -14,8 +15,9 @@ const webpackConfig = (env) => {
     mode: isDev ? 'development' : 'production',
     ...(isDev ? {} : {devtool: "eval-source-map"}),
     resolve: {
-      extensions: [".ts", ".tsx", ".js"],
-      plugins: [new TsconfigPathsPlugin()]
+      extensions: [".ts", ".tsx", ".js", ".jsx"],
+      plugins: [new TsconfigPathsPlugin()],
+      modules: ['node_modules'],
     },
     output: {
       path: path.join(__dirname, "dist"),
@@ -23,6 +25,7 @@ const webpackConfig = (env) => {
       filename: '[name].[contenthash].js'
     },
     module: {
+      strictExportPresence: true,
       rules: [
         {
           test: /\.tsx?$/,
@@ -33,26 +36,41 @@ const webpackConfig = (env) => {
           exclude: /dist/
         },
         {
-          test: /\.css$/i,
+          test: /\.css$/,
+          exclude: /\.module.css$/,
           use: [
             MiniCssExtractPlugin.loader,
             {
               loader: "css-loader",
               options: {
-                importLoaders: 1,
-                modules: {
-                  localIdentName: "[name]__[local]___[hash:base64:5]",
-                },
                 url: false,
-              },
+                modules: 'global',
+              }
             }
+          ]
+        },
+        {
+          test: /\.module.css$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: "css-loader",
+              options: {
+                modules: {
+                  localIdentName: '[name]_[local]_[hash:base64:5]',
+                },
+              },
+            },
           ],
-        }
+        },
       ]
     },
     optimization: {
       minimize: true,
-      minimizer: [  new TerserPlugin({ extractComments: false })],
+      minimizer: [
+        new TerserPlugin({ extractComments: false }),
+        new CssMinimizerPlugin(),
+      ],
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -63,7 +81,7 @@ const webpackConfig = (env) => {
       }),
       new ForkTsCheckerWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].css'
+        filename: '[name].[contenthash].css',
       }),
     ]
   };

@@ -11,6 +11,7 @@ type ButtonProps = {
   text?: string;
   icon?: ButtonIcons;
   isRound?: boolean;
+  tooltip?: string;
 };
 
 // Icons downloaded from https://www.svgrepo.com/
@@ -59,11 +60,17 @@ export const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   onClick,
   icon,
   text,
-  isRound
+  isRound,
+  tooltip,
 }) => {
   const Icon = icon ? iconsHash[icon] : null;
   return (
-    <button className={cs(styles.button, isRound && styles.roundButton)} onClick={onClick}>
+    <button
+      className={cs(styles.button, isRound && styles.roundButton)} onClick={onClick}
+      data-tooltip-id={'tooltip'}
+      data-tooltip-content={tooltip}
+      data-tooltip-place={tooltip ? 'top' : undefined}
+    >
       {!!icon && (
         <div className={styles.icon}>
           <Icon width={32} height={32} />

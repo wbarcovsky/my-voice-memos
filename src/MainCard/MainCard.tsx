@@ -66,7 +66,10 @@ export const MainCard: React.FC<MainCardProps> = ({ memos }) => {
     } else {
       return (
         <>
-          <Button isRound icon={'record'} />
+          <Button
+            isRound
+            icon={'record'}
+            tooltip={'Hold to start record'} />
           <Button isRound icon={'text'} />
         </>
       );
