@@ -1,0 +1,13 @@
+:root {
+    --bg-color: white;
+    --bg-memo-color: rgb(180, 180, 180);
+    --primary-color: rgba(9, 9, 121);
+    --text-color: rgba(0,0,0,0.8);
+
+    --default-border: 1px solid rgba(0,0,0,0.2);
+    --default-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+
+    --button-color: rgba(9, 9, 121, 0.5);
+    --button-color-hover: rgba(9, 9, 121, 0.8);
+    --button-text-color: white;
+}

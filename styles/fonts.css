@@ -1,0 +1,16 @@
+@font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    src: local(''), url('/fonts/Inter-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    src: local(''), url('/fonts/Inter-SemiBold.ttf') format('truetype');
+    font-display: swap;
+}
+

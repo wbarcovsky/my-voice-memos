@@ -2,10 +2,10 @@ import path from "path";
 import {Configuration} from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import ESLintPlugin from "eslint-webpack-plugin";
 import {TsconfigPathsPlugin} from "tsconfig-paths-webpack-plugin";
 import TerserPlugin from 'terser-webpack-plugin';
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const webpackConfig = (env) => {
   const isDev = env.production || !env.development;
@@ -36,22 +36,32 @@ const webpackConfig = (env) => {
           test: /\.css$/i,
           use: [
             MiniCssExtractPlugin.loader,
-            'css-loader',
-            'postcss-loader'
+            {
+              loader: "css-loader",
+              options: {
+                importLoaders: 1,
+                modules: {
+                  localIdentName: "[name]__[local]___[hash:base64:5]",
+                },
+                url: false,
+              },
+            }
           ],
-        },
+        }
       ]
     },
     optimization: {
       minimize: true,
-      minimizer: [new TerserPlugin({ extractComments: false })],
+      minimizer: [  new TerserPlugin({ extractComments: false })],
     },
     plugins: [
       new HtmlWebpackPlugin({
         template: "./public/index.html",
       }),
+      new CopyWebpackPlugin({
+        patterns: [{ from: "public/fonts", to: "fonts" }],
+      }),
       new ForkTsCheckerWebpackPlugin(),
-      ...(isDev ? [] : [new ESLintPlugin({files: "./src/**/*.{ts,tsx,js,jsx}"})]),
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash].css'
       }),

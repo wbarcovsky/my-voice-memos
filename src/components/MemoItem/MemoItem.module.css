@@ -1,0 +1,15 @@
+.wrapper {
+    padding: 0.5rem;
+    background-color: var(--bg-memo-color);
+    border-radius: 15px;
+    box-shadow: var(--default-shadow);
+}
+
+.text {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.text:not(.open) {
+
+}

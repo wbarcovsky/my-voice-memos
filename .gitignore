@@ -2,6 +2,8 @@ node_modules/
 .cache/
 .idea/
 dist/
+.yarn/*
+
 package-lock.json
 
 *.log
