@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 24px;
+    padding: 1.5rem;
     border-bottom: var(--default-border);
 }
 
@@ -26,8 +26,9 @@
 
 .content {
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
+    justify-content: center;
+    flex: 1;
+    overflow: auto;
 }
 
 .bottomWrapper {

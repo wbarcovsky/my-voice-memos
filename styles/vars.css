@@ -1,13 +1,19 @@
 :root {
     --bg-color: white;
-    --bg-memo-color: rgb(180, 180, 180);
+    --bg-memo-color: rgb(220, 220, 220);
     --primary-color: rgba(9, 9, 121);
     --text-color: rgba(0,0,0,0.8);
 
     --default-border: 1px solid rgba(0,0,0,0.2);
     --default-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 
-    --button-color: rgba(9, 9, 121, 0.5);
-    --button-color-hover: rgba(9, 9, 121, 0.8);
+    --button-primary: rgba(9, 9, 121, 0.5);
+    --button-primary-text: rgba(256,256,256,0.8);
+    --button-primary-hover: rgba(9, 9, 121, 0.8);
+
+    --button-gray: rgba(180, 180, 180, 0.5);
+    --button-gray-text: rgba(0,0,0,0.8);
+    --button-gray-hover: rgba(180, 180, 180, 0.8);
+
     --button-text-color: white;
 }

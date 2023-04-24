@@ -5,17 +5,10 @@
     align-items: center;
 
     min-width: 8rem;
-    padding: 1.5rem;
+    padding: 0.5rem;
 
     border-radius: 15px;
     box-shadow: var(--default-shadow);
-    background-color: var(--button-color);
-    color: var(--button-text-color);
-}
-
-.button.roundButton {
-    border-radius: 50%;
-    min-width: auto;
 }
 
 .button:hover {
@@ -28,10 +21,37 @@
 }
 
 .icon + .text {
-    padding-left: 10px;
+    padding-left: 0.5rem;
 }
 
 .text {
-    font-size: 24px;
+    font-size: 1rem;
     line-height: 32px;
+}
+
+.button.roundButton {
+    border-radius: 50%;
+    min-width: auto;
+}
+
+.button.big {
+    padding: 1.5rem;
+}
+.button.big .text {
+    font-size: 1.5rem;
+}
+
+.button.primary {
+    background-color: var(--button-primary);
+    color: var(--button-primary-text);
+}
+.button.primary:hover {
+    background-color: var(--button-primary-hover);
+}
+.button.gray {
+    background-color: var(--button-gray);
+    color: var(--button-gray-text);
+}
+.button.gray:hover {
+    background-color: var(--button-gray-hover);
 }

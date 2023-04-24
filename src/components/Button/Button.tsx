@@ -4,14 +4,16 @@ import cs from 'classnames';
 
 type ButtonIcons = 'plus' | 'text' | 'record';
 
-type ButtonProps = {
+interface ButtonProps {
   onClick?: () => void;
   onHoldStart?: () => void;
   onHoldFinish?: () => void;
   text?: string;
   icon?: ButtonIcons;
   isRound?: boolean;
+  isBig?: boolean;
   tooltip?: string;
+  theme: 'primary' | 'gray';
 };
 
 // Icons downloaded from https://www.svgrepo.com/
@@ -56,17 +58,24 @@ const iconsHash: Record<ButtonIcons, React.JSXElementConstructor<any>> = {
     </svg>
   )
 };
-export const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
+export const Button: React.FC<ButtonProps> = ({
   onClick,
   icon,
   text,
   isRound,
+  isBig,
   tooltip,
+  theme,
 }) => {
   const Icon = icon ? iconsHash[icon] : null;
   return (
     <button
-      className={cs(styles.button, isRound && styles.roundButton)} onClick={onClick}
+      className={cs(
+        styles.button,
+        isRound && styles.roundButton,
+        isBig && styles.big,
+        styles[theme],
+      )} onClick={onClick}
       data-tooltip-id={'tooltip'}
       data-tooltip-content={tooltip}
       data-tooltip-place={tooltip ? 'top' : undefined}

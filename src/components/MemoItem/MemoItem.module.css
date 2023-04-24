@@ -1,12 +1,15 @@
 .wrapper {
-    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
     background-color: var(--bg-memo-color);
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: var(--default-shadow);
+    cursor: pointer;
 }
 
 .text {
-    font-size: 14px;
+    font-size: 1rem;
     color: var(--text-color);
 }
 

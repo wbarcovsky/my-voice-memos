@@ -6,7 +6,7 @@ import cs from 'classnames';
 interface MemoItemProps {
   memo: IMemo,
   isOpen?: boolean,
-  onClick: () => void,
+  onClick?: () => void,
 }
 
 export const MemoItem: React.FC<MemoItemProps> = ({ memo, isOpen }) => {
