@@ -6,14 +6,17 @@ import { nl2br } from "../../utils/nl2br";
 
 interface MemoItemProps {
   memo: IMemo,
-  isOpen?: boolean,
+  isShort?: boolean,
   onClick?: () => void,
 }
 
-export const MemoItem: React.FC<MemoItemProps> = ({ memo, isOpen }) => {
+export const MemoItem: React.FC<MemoItemProps> = ({ memo, isShort, onClick }) => {
   return (
-    <div className={cs(styles.wrapper)}>
-      <div className={styles.text}>
+    <div
+      className={cs(styles.wrapper, onClick && styles.pointer)}
+      onClick={() => onClick ? onClick() : null}
+    >
+      <div className={cs(styles.text, isShort && styles.short)}>
         {nl2br(memo.text)}
       </div>
     </div>

@@ -4,8 +4,6 @@
     padding: 1rem;
     background-color: var(--bg-memo-color);
     border-radius: 10px;
-    box-shadow: var(--default-shadow);
-    cursor: pointer;
 }
 
 .text {
@@ -15,6 +13,13 @@
     white-space: pre-wrap;
 }
 
-.text:not(.open) {
+.text.short {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
+.pointer {
+    cursor: pointer;
 }

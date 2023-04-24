@@ -1,0 +1,30 @@
+.wrapper {
+    display: flex;
+    margin: auto;
+    padding: 20px 0 180px 0;
+    justify-content: center;
+}
+
+.pulse {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: 0 0 1px 1px #0000001a;
+    background: var(--recording-color);
+    animation: pulse-animation 2s infinite;
+    position: absolute;
+}
+
+.svg {
+    position: absolute;
+    margin-top: 20px;
+}
+
+@keyframes pulse-animation {
+    0% {
+        box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+        box-shadow: 0 0 0 50px rgba(0, 0, 0, 0);
+    }
+}

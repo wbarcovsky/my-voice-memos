@@ -45,22 +45,39 @@ export class DbApi {
     const store = t.objectStore(this.storeName);
     return new Promise<IMemo[]>((resolve, reject) => {
       const request = store.getAll();
-      request.onsuccess = () => resolve(request.result);
+      request.onsuccess = () => {
+        const res = request.result;
+        res.sort((a,b) => b.createDate - a.createDate)
+        resolve(res);
+      }
       request.onerror = (e) => reject(e);
     })
   }
 
-  async saveMemo(memo: IMemo): Promise<boolean> {
+  async saveMemo(memo: IMemo): Promise<void> {
     if (!this.db) throw new Error('Db is not init yet');
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const memoToSave = {
         ...memo
       };
       if (!memoToSave.id) memoToSave.id = uniqueId();
+      if (!memoToSave.createDate) memoToSave.createDate = Date.now();
       const t = this.db.transaction(this.storeName, 'readwrite');
       const store = t.objectStore(this.storeName);
-      store.add(memoToSave);
-      t.oncomplete = () => resolve(true);
+      store.put(memoToSave);
+      t.oncomplete = () => resolve();
+      t.onerror = (e) => reject(e);
+      t.commit();
+    });
+  }
+
+  async removeMemo(memo: IMemo): Promise<void> {
+    if (!this.db) throw new Error('Db is not init yet');
+    return new Promise<void>((resolve, reject) => {
+      const t = this.db.transaction(this.storeName, 'readwrite');
+      const store = t.objectStore(this.storeName);
+      store.delete(memo.id);
+      t.oncomplete = () => resolve();
       t.onerror = (e) => reject(e);
       t.commit();
     });

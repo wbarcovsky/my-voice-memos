@@ -1,0 +1,15 @@
+.editModalWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.editModalInput {
+    margin-bottom: 1rem;
+}
+
+.editModalButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

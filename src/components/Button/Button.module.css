@@ -11,10 +11,6 @@
     box-shadow: var(--default-shadow);
 }
 
-.button:hover {
-    background-color: var(--button-color-hover);
-}
-
 .icon {
     width: 32px;
     height: 32px;
@@ -41,17 +37,11 @@
     font-size: 1.5rem;
 }
 
-.button.primary {
-    background-color: var(--button-primary);
-    color: var(--button-primary-text);
-}
-.button.primary:hover {
-    background-color: var(--button-primary-hover);
-}
-.button.gray {
-    background-color: var(--button-gray);
-    color: var(--button-gray-text);
-}
-.button.gray:hover {
-    background-color: var(--button-gray-hover);
-}
+.button.primary { background-color: var(--button-primary);color: var(--button-primary-text); }
+.button.primary:hover { background-color: var(--button-primary-hover); }
+
+.button.gray { background-color: var(--button-gray); color: var(--button-gray-text); }
+.button.gray:hover { background-color: var(--button-gray-hover); }
+
+.button.warning { background-color: var(--button-warning); color: var(--button-warning-text); }
+.button.warning:hover { background-color: var(--button-warning-hover); }

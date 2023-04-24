@@ -1,32 +1,30 @@
 import React from "react";
 import styles from "./MainCard.module.css";
-import { IMemo } from "../types/IMemo";
+import { IMemo } from "../../types/IMemo";
 import { Button } from "components/Button/Button";
 import { Card } from "components/Card/Card";
-import { Modal } from "components/Modal/Modal";
-import { Textarea } from "components/Textarea/Textarea";
-import { Spinner } from "components/Spinner/Spinner";
 import { MemoItem } from "components/MemoItem/MemoItem";
+import { EditModal } from "components/EditModal/EditModal";
+import { speechApi } from "../../utils/speechApi";
+import { RecordingModal } from "components/RecordingModal/RecordingModal";
 
 interface MainCardProps {
   memos: IMemo[];
   isLoading: boolean;
-  onMemoSaved: (memo: IMemo) => Promise<boolean>;
+  onMemoSaved: (memo: IMemo) => Promise<void>;
+  onMemoSelected: (memo: IMemo) => void;
 }
 
-export const MainCard: React.FC<MainCardProps> = ({ memos, isLoading, onMemoSaved}) => {
+export const MainCard: React.FC<MainCardProps> = ({ memos, isLoading, onMemoSaved, onMemoSelected}) => {
   const [currentMemo, setCurrentMemo] = React.useState<IMemo>(null);
   const [addMemoMode, setAddMemoMod] = React.useState<"add" | "select">("add");
+  const [isRecording, setIsRecording] = React.useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
   const preventPropagation = React.useRef(false);
 
   const createNewMemo = () => {
     setCurrentMemo({ text: "" });
     setEditModalOpen(true);
-  };
-
-  const updateCurrentMemo = (data: Partial<IMemo>) => {
-    setCurrentMemo({ ...currentMemo, ...data });
   };
 
   const outsideClickHandler = () => {
@@ -45,13 +43,6 @@ export const MainCard: React.FC<MainCardProps> = ({ memos, isLoading, onMemoSave
   }, []);
 
   const cardContent = React.useMemo(() => {
-    if (isLoading) {
-      return (
-        <div className={styles.loader}>
-          <Spinner/>
-        </div>
-      );
-    }
     if (memos.length === 0) return (
         <div className={styles.memosEmptyList}>
           <p className={styles.notFoundText}>
@@ -67,29 +58,31 @@ export const MainCard: React.FC<MainCardProps> = ({ memos, isLoading, onMemoSave
       <div className={styles.memoList}>
         {memos.map(memo => (
           <div className={styles.memoItemWrapper}>
-            <MemoItem key={memo.id} memo={memo}/>
+            <MemoItem
+              key={memo.id}
+              memo={memo}
+              onClick={() => onMemoSelected(memo)}
+              isShort={true}
+            />
           </div>)
         )}
       </div>
     )
-  }, [memos, isLoading]);
+  }, [memos]);
 
   const cardButtons = React.useMemo(() => {
-    if (isLoading) return null;
     if (addMemoMode === "add") {
       return (
-        <>
-          <Button
-            isBig
-            theme={"primary"}
-            onClick={() => {
-              preventPropagation.current = true;
-              setAddMemoMod("select");
-            }}
-            icon={"plus"}
-            text={"Add new memo"}
-          />
-        </>
+        <Button
+          isBig
+          theme={"primary"}
+          onClick={() => {
+            preventPropagation.current = true;
+            setAddMemoMod("select");
+          }}
+          icon={"plus"}
+          text={"Add new memo"}
+        />
       );
     } else {
       return (
@@ -100,51 +93,44 @@ export const MainCard: React.FC<MainCardProps> = ({ memos, isLoading, onMemoSave
             theme={"primary"}
             icon={"text"}
             onClick={() => createNewMemo()}
+            tooltip={"Write your memo"}
           />
-          <Button
-            isRound
-            isBig
-            theme={"primary"}
-            icon={"record"}
-            tooltip={"Hold to start record"} />
+          {speechApi.isAvailable && (
+            <Button
+              isRound
+              isBig
+              theme={"primary"}
+              icon={"record"}
+              onHoldStart={() => setIsRecording(true)}
+              onHoldFinish={() => setIsRecording(false)}
+              tooltip={"Hold to start record"} />
+          )}
         </>
       );
     }
-  }, [addMemoMode, isLoading]);
+  }, [addMemoMode]);
 
   return (
     <>
-      <Card title={"My voice memos"} content={cardContent} buttons={cardButtons} />
-      <Modal
+      <Card
+        content={cardContent}
+        buttons={cardButtons}
+        isLoading={isLoading}
+      />
+      <EditModal
+        isOpen={editModalOpen}
         title={"Create new memo"}
         onClose={() => setEditModalOpen(false)}
-        isOpen={editModalOpen}
-      >
-        <div className={styles.editModalWrapper}>
-          <div className={styles.editModalInput}>
-            <Textarea
-              value={currentMemo?.text}
-              onChange={text => updateCurrentMemo({ text })}
-              placeholder={"Write your memo"}
-            />
-          </div>
-          <div className={styles.editModalButtons}>
-            <Button
-              theme={"primary"}
-              text={"Save"}
-              onClick={async () => {
-                setEditModalOpen(false);
-                await onMemoSaved(currentMemo);
-              }}
-            />
-            <Button
-              theme={"gray"}
-              text={"Cancel"}
-              onClick={() => setEditModalOpen(false)}
-            />
-          </div>
-        </div>
-      </Modal>
+        memo={currentMemo}
+        onSave={async (memo) =>{
+          setEditModalOpen(false);
+          await onMemoSaved(memo);
+        }}
+      />
+      <RecordingModal isOpen={isRecording} onVoiceRecorded={(text) => {
+        setCurrentMemo({ text });
+        setEditModalOpen(true);
+      }}/>
     </>
   );
 };

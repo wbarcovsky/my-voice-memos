@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import { useAutosizeTextArea } from "../../hooks/useAutosizeTextArea";
+import React, { useCallback, useRef, useState } from "react";
 import styles from './Textarea.module.css';
 
 interface TextareaProps {
@@ -9,9 +8,15 @@ interface TextareaProps {
 }
 
 export const Textarea: React.FC<TextareaProps> = ({placeholder, onChange, value}) => {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  useAutosizeTextArea(textAreaRef.current, value);
+  // Autoresize logic
+  const textAreaRef = useCallback(node => {
+    if (node) {
+      node.style.height = "0px";
+      const scrollHeight = node.scrollHeight;
+      node.style.height = scrollHeight + "px";
+    }
+  }, [value]);
 
   const handleChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = evt.target?.value;

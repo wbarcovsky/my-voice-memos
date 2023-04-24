@@ -9,11 +9,12 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
 const webpackConfig = (env) => {
-  const isDev = env.production || !env.development;
+  const isDev = !env.production || env.development;
+
   const config: Configuration = {
     entry: "./src/index.tsx",
     mode: isDev ? 'development' : 'production',
-    ...(isDev ? {} : {devtool: "eval-source-map"}),
+    ...(!isDev ? {} : {devtool: "eval-source-map"}),
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],
       plugins: [new TsconfigPathsPlugin()],
@@ -57,7 +58,7 @@ const webpackConfig = (env) => {
               loader: "css-loader",
               options: {
                 modules: {
-                  localIdentName: '[name]_[local]_[hash:base64:5]',
+                  localIdentName: isDev ? '[name]_[local]_[hash:base64:5]' : '[hash:base64:5]',
                 },
               },
             },

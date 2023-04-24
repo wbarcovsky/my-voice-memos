@@ -1,7 +1,8 @@
 :root {
     --bg-color: white;
-    --bg-memo-color: rgb(220, 220, 220);
+    --bg-memo-color: rgba(230, 230, 230);
     --primary-color: rgba(9, 9, 121);
+    --recording-color: rgb(200, 40, 40);
     --text-color: rgba(0,0,0,0.8);
 
     --default-border: 1px solid rgba(0,0,0,0.2);
@@ -14,6 +15,10 @@
     --button-gray: rgba(180, 180, 180, 0.5);
     --button-gray-text: rgba(0,0,0,0.8);
     --button-gray-hover: rgba(180, 180, 180, 0.8);
+
+    --button-warning: rgba(180, 60, 60, 0.75);
+    --button-warning-text: rgba(256,256,256,1);
+    --button-warning-hover: rgba(180, 60, 60, 1);
 
     --button-text-color: white;
 }
