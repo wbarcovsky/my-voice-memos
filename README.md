@@ -21,3 +21,5 @@ https://wbarcovsky.github.io/my-voice-memos/
 1. It will be nice to show confirm dialog before the memo is deleted.
 2. Too much records can cause app to work slowly. Suggestion: add pagination + autoload from DB on scroll 
 3. Need to write some unit tests.
+4. Speech recognition might not works properly on iPad (However MacOS is doing fine)
+5. Some events might look prettier with some transition animations (showing modals, switching between screens, etc.)

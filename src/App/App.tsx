@@ -6,7 +6,7 @@ import { Tooltip } from 'react-tooltip';
 import { dbApi } from '../utils/dbApi';
 import { ViewMemoCard } from '../screens/ViewMemoCard/ViewMemoCard';
 import { speechApi } from '../utils/speechApi';
-import { useNotify } from 'components/hooks/useNotify';
+import { useNotify } from '../hooks/useNotify';
 
 export const App: React.FC = () => {
   const [memos, setMemos] = React.useState<IMemo[]>([]);
