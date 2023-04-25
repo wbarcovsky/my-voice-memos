@@ -1,8 +1,8 @@
-import { IMemo } from "../types/IMemo";
-import { uniqueId } from "./uniqueId";
+import { IMemo } from '../types/IMemo';
+import { uniqueId } from './uniqueId';
+import Emittery from 'emittery';
 
-export class DbApi {
-
+export class DbApi extends Emittery {
   protected dbName: string;
   protected storeName: string;
   protected version: number;
@@ -11,17 +11,17 @@ export class DbApi {
   protected store: IDBObjectStore;
 
   constructor() {
+    super();
     this.dbName = 'my-voices-memo-db';
     this.storeName = 'memos';
     this.version = 1;
   }
 
-
   async init() {
-
     return new Promise((resolve, reject) => {
       if (!('indexedDB' in window)) {
-        reject('This browser doesn\'t support IndexedDB.');
+        this.emit('error', "This browser doesn't support IndexedDB.");
+        reject("This browser doesn't support IndexedDB.");
         return;
       }
 
@@ -34,8 +34,11 @@ export class DbApi {
         if (!request.result.objectStoreNames.contains(this.storeName)) {
           request.result.createObjectStore(this.storeName, { keyPath: 'id' });
         }
-      }
-      request.onerror = (e) => reject(e);
+      };
+      request.onerror = (e) => {
+        this.emit('error', e);
+        return reject(e);
+      };
     });
   }
 
@@ -47,11 +50,14 @@ export class DbApi {
       const request = store.getAll();
       request.onsuccess = () => {
         const res = request.result;
-        res.sort((a,b) => b.createDate - a.createDate)
+        res.sort((a, b) => b.createDate - a.createDate);
         resolve(res);
-      }
-      request.onerror = (e) => reject(e);
-    })
+      };
+      request.onerror = (e) => {
+        this.emit('error', e);
+        reject(e);
+      };
+    });
   }
 
   async saveMemo(memo: IMemo): Promise<void> {
@@ -66,7 +72,10 @@ export class DbApi {
       const store = t.objectStore(this.storeName);
       store.put(memoToSave);
       t.oncomplete = () => resolve();
-      t.onerror = (e) => reject(e);
+      t.onerror = (e) => {
+        this.emit('error', e);
+        reject(e);
+      };
       t.commit();
     });
   }
@@ -78,7 +87,10 @@ export class DbApi {
       const store = t.objectStore(this.storeName);
       store.delete(memo.id);
       t.oncomplete = () => resolve();
-      t.onerror = (e) => reject(e);
+      t.onerror = (e) => {
+        this.emit('error', e);
+        reject(e);
+      };
       t.commit();
     });
   }

@@ -1,5 +1,6 @@
-class SpeechApi {
+import Emittery from 'emittery';
 
+class SpeechApi extends Emittery {
   protected _isAvailable = false;
   protected recognition: SpeechRecognition;
   protected isRecording = false;
@@ -9,6 +10,7 @@ class SpeechApi {
   }
 
   constructor() {
+    super();
     if (window['webkitSpeechRecognition'] === undefined) return;
     const SpeechRecognitionClass = window.webkitSpeechRecognition;
     this.recognition = new SpeechRecognitionClass();
@@ -19,10 +21,10 @@ class SpeechApi {
 
   async init() {
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true })
+      await navigator.mediaDevices.getUserMedia({ audio: true });
       this._isAvailable = true;
     } catch (e) {
-      console.error(e);
+      return this.emit('error', e);
     }
   }
 
@@ -30,23 +32,24 @@ class SpeechApi {
     this.isRecording = true;
     return new Promise((resolve, reject) => {
       this.recognition.onerror = (err) => {
-        console.error(err)
         this.isRecording = false;
+        this.emit('error', err);
         return reject(err);
-      }
+      };
       let speechStart = false;
       this.recognition.onspeechstart = () => {
         speechStart = true;
-      }
+      };
       this.recognition.onaudioend = () => {
         if (!speechStart) resolve(null);
-      }
+      };
       this.recognition.onnomatch = (e) => {
+        this.emit('error', e);
         resolve(null);
       };
 
       this.recognition.onresult = (event) => {
-        let text = [];
+        const text = [];
         for (let i = event.resultIndex; i < event.results.length; i++) {
           text.push(event.results[i][0].transcript);
           if (event.results[i].isFinal) {
@@ -58,14 +61,12 @@ class SpeechApi {
       };
 
       this.recognition.start();
-
-    })
+    });
   }
 
   stopRecord() {
     if (!this.isRecording) return;
     this.recognition.stop();
-    console.log('STOP!!!');
   }
 }
 

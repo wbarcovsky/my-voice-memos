@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Button.module.css';
 import cs from 'classnames';
-import { ArrowLeftIcon, CrossIcon, MicIcon, PlusIcon, TextIcon } from "components/icons";
+import { ArrowLeftIcon, CrossIcon, MicIcon, PlusIcon, TextIcon } from 'components/icons';
 
 type ButtonIcons = 'plus' | 'text' | 'record' | 'arrowLeft' | 'remove';
 
@@ -22,7 +22,7 @@ const iconsHash: Record<ButtonIcons, React.JSXElementConstructor<any>> = {
   plus: PlusIcon,
   record: MicIcon,
   arrowLeft: ArrowLeftIcon,
-  remove: CrossIcon,
+  remove: CrossIcon
 };
 
 export const Button: React.FC<ButtonProps> = ({
@@ -34,7 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
   isRound,
   isBig,
   tooltip,
-  theme,
+  theme
 }) => {
   const Icon = icon ? iconsHash[icon] : null;
   const holdStarted = React.useRef(false);
@@ -42,32 +42,35 @@ export const Button: React.FC<ButtonProps> = ({
   const mouseDown = () => {
     if (onHoldStart && !holdStarted.current) {
       onHoldStart();
-      window.addEventListener('mouseup', () => {
-        onHoldFinish();
-        holdStarted.current = false;
-      }, { once: true })
+      window.addEventListener(
+        'mouseup',
+        () => {
+          onHoldFinish();
+          holdStarted.current = false;
+        },
+        { once: true }
+      );
     }
-  }
+  };
 
   const touchStart = () => {
     if (onHoldStart && !holdStarted.current) {
       holdStarted.current = true;
       onHoldStart();
-      window.addEventListener('touchend', () => {
-        onHoldFinish();
-        holdStarted.current = false;
-      }, { once: true })
+      window.addEventListener(
+        'touchend',
+        () => {
+          onHoldFinish();
+          holdStarted.current = false;
+        },
+        { once: true }
+      );
     }
-  }
+  };
 
   return (
     <button
-      className={cs(
-        styles.button,
-        isRound && styles.roundButton,
-        isBig && styles.big,
-        styles[theme],
-      )}
+      className={cs(styles.button, isRound && styles.roundButton, isBig && styles.big, styles[theme])}
       onClick={onClick}
       onMouseDown={mouseDown}
       onTouchStart={touchStart}

@@ -4,7 +4,7 @@ This app allow user to create memos using speech recognition in browser.
 I tried to keep this app small and simple without any unnecessary dependencies. 
 
 ## Tech stack and libraries
-1. 
+1. Webpack - because we want to stay flexible in term of building strategy and used tool () 
 
 ## Known issues (backlog)
 1. It will be nice to show confirm dialog before the memo is deleted.
