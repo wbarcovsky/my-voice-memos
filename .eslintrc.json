@@ -45,6 +45,7 @@
     "no-console": "error",
     "max-len": ["error", {"code": 120, "ignorePattern": "d=\"([\\s\\S]*?)\""}]
   },
+  "ignorePatterns": ["/docs"],
   "settings": {
     "react": {
       "version": "detect"
