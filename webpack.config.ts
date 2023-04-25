@@ -21,7 +21,7 @@ const webpackConfig = (env) => {
       modules: ['node_modules'],
     },
     output: {
-      path: path.join(__dirname, "dist"),
+      path: path.join(__dirname, "docs"),
       clean: true,
       filename: '[name].[contenthash].js'
     },
