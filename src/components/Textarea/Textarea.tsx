@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback } from 'react';
 import styles from './Textarea.module.css';
 
 interface TextareaProps {
@@ -7,16 +7,15 @@ interface TextareaProps {
   value: string;
 }
 
-export const Textarea: React.FC<TextareaProps> = ({placeholder, onChange, value}) => {
-
+export const Textarea: React.FC<TextareaProps> = ({ placeholder, onChange, value }) => {
   // Autoresize logic
-  const textAreaRef = useCallback(node => {
+  const textAreaRef = useCallback((node) => {
     if (node) {
-      node.style.height = "0px";
+      node.style.height = '0px';
       const scrollHeight = node.scrollHeight;
-      node.style.height = scrollHeight + "px";
+      node.style.height = scrollHeight + 'px';
     }
-  }, [value]);
+  }, []);
 
   const handleChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = evt.target?.value;
@@ -33,4 +32,4 @@ export const Textarea: React.FC<TextareaProps> = ({placeholder, onChange, value}
       value={value}
     />
   );
-}
+};

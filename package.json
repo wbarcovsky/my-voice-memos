@@ -5,9 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack-cli serve --mode=development --env development --open --hot",
-    "build": "rimraf ./docs && webpack --mode=production --env production --progress",
-    "lint": "eslint './src/**/*.{ts,tsx,js,jsx}'",
-    "lint:fix": "eslint './src/**/*.{ts,tsx,js,jsx}' --fix"
+    "build": "rimraf ./dist && webpack --mode=production --env production --progress",
+    "lint:fix": "eslint './src/**/*.{ts,tsx,js,jsx}' --fix",
+    "lint:staged": "lint-staged"
   },
   "devDependencies": {
     "@types/dom-speech-recognition": "^0.0.1",
@@ -27,6 +27,7 @@
     "fork-ts-checker-webpack-plugin": "7.3.0",
     "html-webpack-plugin": "5.5.1",
     "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
     "mini-css-extract-plugin": "^2.7.5",
     "prettier": "2.8.8",
     "rimraf": "^5.0.0",
@@ -43,8 +44,16 @@
   "dependencies": {
     "classnames": "^2.3.2",
     "copy-webpack-plugin": "^11.0.0",
+    "emittery": "^1.0.1",
+    "rc-notification": "^5.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-tooltip": "^5.11.1"
+  },
+  "lint-staged": {
+    "*.(j|t)s?(x)": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }

@@ -9,6 +9,7 @@
 
     border-radius: 15px;
     box-shadow: var(--default-shadow);
+    transition: background-color 200ms ease-out 100ms
 }
 
 .icon {

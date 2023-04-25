@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import styles from './Card.module.css';
-import { Spinner } from "components/Spinner/Spinner";
+import { Spinner } from 'components/Spinner/Spinner';
 
 interface MainCardProps {
   title?: string;
@@ -10,7 +10,6 @@ interface MainCardProps {
 }
 
 export const Card: React.FC<MainCardProps> = ({ title = 'My voice memos', content, buttons, isLoading }) => {
-
   const [actualLoading, setActualLoading] = React.useState(isLoading);
   // Delay before spinner will show
   useEffect(() => {
@@ -18,11 +17,11 @@ export const Card: React.FC<MainCardProps> = ({ title = 'My voice memos', conten
       setActualLoading(null);
       setTimeout(() => {
         if (actualLoading === null) setActualLoading(true);
-      }, 100)
+      }, 100);
     } else {
       setActualLoading(false);
     }
-  }, [isLoading])
+  }, [isLoading]);
 
   return (
     <div className={styles.cardWrapper}>
@@ -30,9 +29,15 @@ export const Card: React.FC<MainCardProps> = ({ title = 'My voice memos', conten
         <p className={styles.title}>{title}</p>
       </div>
       <div className={styles.content}>
-        {actualLoading ? <div className={styles.loader}><Spinner/></div> : content}
+        {actualLoading ? (
+          <div className={styles.loader}>
+            <Spinner />
+          </div>
+        ) : (
+          content
+        )}
       </div>
-      {(buttons && !actualLoading) && <div className={styles.bottomWrapper}>{buttons}</div>}
+      {buttons && !actualLoading && <div className={styles.bottomWrapper}>{buttons}</div>}
     </div>
   );
 };
