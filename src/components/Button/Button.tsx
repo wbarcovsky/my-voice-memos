@@ -37,17 +37,26 @@ export const Button: React.FC<ButtonProps> = ({
   theme,
 }) => {
   const Icon = icon ? iconsHash[icon] : null;
+  const holdStarted = React.useRef(false);
+
   const mouseDown = () => {
-    if (onHoldStart) {
+    if (onHoldStart && !holdStarted.current) {
       onHoldStart();
-      window.addEventListener('mouseup', () => onHoldFinish(), { once: true })
+      window.addEventListener('mouseup', () => {
+        onHoldFinish();
+        holdStarted.current = false;
+      }, { once: true })
     }
   }
 
   const touchStart = () => {
-    if (onHoldStart) {
+    if (onHoldStart && !holdStarted.current) {
+      holdStarted.current = true;
       onHoldStart();
-      window.addEventListener('touchend', () => onHoldFinish(), { once: true })
+      window.addEventListener('touchend', () => {
+        onHoldFinish();
+        holdStarted.current = false;
+      }, { once: true })
     }
   }
 
