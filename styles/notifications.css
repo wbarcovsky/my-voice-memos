@@ -1,0 +1,9 @@
+.rc-notification-bottomLeft {
+    bottom: 0;
+}
+
+.notify-error {
+    background-color: var(--warning-color);
+    color: white;
+    padding: 1rem;
+}

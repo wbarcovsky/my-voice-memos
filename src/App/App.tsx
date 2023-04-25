@@ -6,6 +6,7 @@ import { Tooltip } from 'react-tooltip';
 import { dbApi } from '../utils/dbApi';
 import { ViewMemoCard } from '../screens/ViewMemoCard/ViewMemoCard';
 import { speechApi } from '../utils/speechApi';
+import { useNotify } from 'components/hooks/useNotify';
 
 export const App: React.FC = () => {
   const [memos, setMemos] = React.useState<IMemo[]>([]);
@@ -13,7 +14,17 @@ export const App: React.FC = () => {
   const [viewedMemo, setViewedMemo] = React.useState<IMemo>(null);
   const [screen, setScreen] = React.useState<'main' | 'view'>('main');
 
+  const [notify, contextHolder] = useNotify();
+
+  const errorHandler = (error) => {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    notify('Oops! Something went wrong');
+  };
+
   React.useEffect(() => {
+    speechApi.on('error', errorHandler);
+    dbApi.on('error', errorHandler);
     speechApi.init();
     dbApi.init().then(() =>
       dbApi.loadMemos().then((loadedMemos) => {
@@ -66,6 +77,7 @@ export const App: React.FC = () => {
             />
           )}
         </div>
+        <div id="popups">{contextHolder}</div>
       </div>
       <Tooltip id="tooltip" />
     </>
