@@ -3,6 +3,7 @@
     --bg-memo-color: rgba(230, 230, 230);
     --primary-color: rgba(9, 9, 121);
     --recording-color: rgb(200, 40, 40);
+    --warning-color: rgba(200, 80, 80);
     --text-color: rgba(0,0,0,0.8);
 
     --default-border: 1px solid rgba(0,0,0,0.2);

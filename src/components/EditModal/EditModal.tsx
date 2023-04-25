@@ -24,7 +24,12 @@ export const EditModal: React.FC<EditModalProps> = ({ isOpen, memo, onSave, onCl
     <Modal title={'Create new memo'} onClose={() => onClose()} isOpen={isOpen}>
       <div className={styles.editModalWrapper}>
         <div className={styles.editModalInput}>
-          <Textarea value={text} onChange={(value) => setText(value)} placeholder={'Write your memo'} />
+          <Textarea
+            value={text}
+            onChange={(value) => setText(value)}
+            placeholder={'Write your memo'}
+            maxLength={2000}
+          />
         </div>
         <div className={styles.editModalButtons}>
           <Button theme={'primary'} text={'Save'} onClick={() => onSave({ ...memo, text })} />

@@ -5,9 +5,10 @@ interface TextareaProps {
   placeholder: string;
   onChange?: (value: string) => void;
   value: string;
+  maxLength?: number;
 }
 
-export const Textarea: React.FC<TextareaProps> = ({ placeholder, onChange, value }) => {
+export const Textarea: React.FC<TextareaProps> = ({ placeholder, onChange, value, maxLength = null }) => {
   // Autoresize logic
   const textAreaRef = useCallback((node) => {
     if (node) {
@@ -18,7 +19,8 @@ export const Textarea: React.FC<TextareaProps> = ({ placeholder, onChange, value
   }, []);
 
   const handleChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const val = evt.target?.value;
+    let val = evt.target?.value;
+    if (maxLength) val = val.substring(0, maxLength);
     if (onChange) onChange(val);
   };
 

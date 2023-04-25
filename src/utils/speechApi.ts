@@ -1,16 +1,17 @@
 import Emittery from 'emittery';
 
-class SpeechApi extends Emittery {
+class SpeechApi {
   protected _isAvailable = false;
   protected recognition: SpeechRecognition;
   protected isRecording = false;
+  protected emitter: Emittery;
 
   get isAvailable() {
     return this._isAvailable;
   }
 
   constructor() {
-    super();
+    this.emitter = new Emittery();
     if (window['webkitSpeechRecognition'] === undefined) return;
     const SpeechRecognitionClass = window.webkitSpeechRecognition;
     this.recognition = new SpeechRecognitionClass();
@@ -19,12 +20,16 @@ class SpeechApi extends Emittery {
     this.recognition.maxAlternatives = 1;
   }
 
+  on(event: string, handler: (data: any) => void) {
+    return this.emitter.on(event, handler);
+  }
+
   async init() {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
       this._isAvailable = true;
     } catch (e) {
-      return this.emit('error', e);
+      return this.emitter.emit('error', e);
     }
   }
 
@@ -33,7 +38,7 @@ class SpeechApi extends Emittery {
     return new Promise((resolve, reject) => {
       this.recognition.onerror = (err) => {
         this.isRecording = false;
-        this.emit('error', err);
+        this.emitter.emit('error', err);
         return reject(err);
       };
       let speechStart = false;
@@ -44,7 +49,7 @@ class SpeechApi extends Emittery {
         if (!speechStart) resolve(null);
       };
       this.recognition.onnomatch = (e) => {
-        this.emit('error', e);
+        this.emitter.emit('error', e);
         resolve(null);
       };
 
