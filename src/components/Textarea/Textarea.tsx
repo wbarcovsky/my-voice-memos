@@ -10,13 +10,16 @@ interface TextareaProps {
 
 export const Textarea: React.FC<TextareaProps> = ({ placeholder, onChange, value, maxLength = null }) => {
   // Autoresize logic
-  const textAreaRef = useCallback((node) => {
-    if (node) {
-      node.style.height = '0px';
-      const scrollHeight = node.scrollHeight;
-      node.style.height = scrollHeight + 'px';
-    }
-  }, []);
+  const textAreaRef = useCallback(
+    (node) => {
+      if (node) {
+        node.style.height = '0px';
+        const scrollHeight = node.scrollHeight;
+        node.style.height = scrollHeight + 'px';
+      }
+    },
+    [value]
+  );
 
   const handleChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
     let val = evt.target?.value;
