@@ -34,7 +34,7 @@ const webpackConfig = (env) => {
           options: {
             transpileOnly: true
           },
-          exclude: /dist/
+          exclude: (val) => !!val.match(/dist/) || !!val.match(/.test.js$/)
         },
         {
           test: /\.css$/,

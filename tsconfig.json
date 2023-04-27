@@ -28,6 +28,7 @@
   },
   "include": [
     "./src",
+    "./e2e",
     "./webpack.config.ts"
   ]
 }

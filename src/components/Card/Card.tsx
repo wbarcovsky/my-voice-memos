@@ -9,7 +9,7 @@ interface MainCardProps {
   isLoading?: boolean;
 }
 
-export const Card: React.FC<MainCardProps> = ({ title = 'My voice memos', content, buttons, isLoading }) => {
+export const Card: React.FC<MainCardProps> = ({ title = 'My voice memos!!!', content, buttons, isLoading }) => {
   const [actualLoading, setActualLoading] = React.useState(isLoading);
   // Delay before spinner will show
   useEffect(() => {
@@ -26,7 +26,9 @@ export const Card: React.FC<MainCardProps> = ({ title = 'My voice memos', conten
   return (
     <div className={styles.cardWrapper}>
       <div className={styles.titleWrapper}>
-        <p className={styles.title}>{title}</p>
+        <p data-test-id="title" className={styles.title}>
+          {title}
+        </p>
       </div>
       <div className={styles.content}>
         {actualLoading ? (
