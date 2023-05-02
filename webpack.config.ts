@@ -25,6 +25,7 @@ const webpackConfig = (env) => {
       clean: true,
       filename: '[name].[contenthash].js'
     },
+    target: 'browserslist',
     module: {
       strictExportPresence: true,
       rules: [

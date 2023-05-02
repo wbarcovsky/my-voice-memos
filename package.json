@@ -9,6 +9,11 @@
     "lint:fix": "eslint './src/**/*.{ts,tsx,js,jsx}' --fix",
     "lint:staged": "lint-staged"
   },
+  "browserslist": ["defaults"],
+  "packageManager": "^yarn@1.22.19",
+  "engines": {
+    "node": ">= 16.19.0"
+  },
   "devDependencies": {
     "@types/dom-speech-recognition": "^0.0.1",
     "@types/react": "18.0.38",
