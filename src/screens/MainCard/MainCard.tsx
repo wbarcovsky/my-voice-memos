@@ -97,9 +97,10 @@ export const MainCard: React.FC<MainCardProps> = ({ memos, isLoading, onMemoSave
               isBig
               theme={'primary'}
               icon={'record'}
-              onHoldStart={() => setIsRecording(true)}
-              onHoldFinish={() => setIsRecording(false)}
-              tooltip={'Hold to start record'}
+              onClick={() => {
+                setIsRecording(true);
+                setTimeout(() => setIsRecording(false), 4000);
+              }}
             />
           )}
         </>
