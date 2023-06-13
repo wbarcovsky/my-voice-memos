@@ -1,12 +1,10 @@
 import React, { ReactNode } from 'react';
 
 export function nl2br(text: string): ReactNode {
-  return text.split('\n').map(function (item, idx) {
-    return (
-      <span key={idx}>
-        {item}
-        <br />
-      </span>
-    );
-  });
+  return text.split('\n').map((item, idx) => (
+    <span key={idx}>
+      {item}
+      <br />
+    </span>
+  ));
 }
